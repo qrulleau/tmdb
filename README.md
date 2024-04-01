@@ -5,7 +5,8 @@ Teacher : @vodkhard
 ## Overall information
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
-the POC instructions were to use this API : [TMDB](https://www.themoviedb.org/?language=fr)
+the POC instructions were to use this API : [TMDB](https://www.themoviedb.org/?language=fr).\
+If you want to look more about the instruction : [DOC](https://github.com/qrulleau/tmdb/blob/master/Site_de_films.pdf).
 
 ### `npm start`
 
