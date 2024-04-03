@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 const Movie = ({ title, posterPath, movieId }) => {
   return (
-    <a href={`/movie/${movieId}`}>
+    <Link to={`/movie/${movieId}`} className="movie-link">
         <div className="movie">
             <div className="thumbnail">
                 {posterPath ? (
@@ -15,7 +17,7 @@ const Movie = ({ title, posterPath, movieId }) => {
             <h2>{title}</h2>
         </div>
         </div>
-    </a>
+    </Link>
   );
 };
 
