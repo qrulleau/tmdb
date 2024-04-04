@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+  font-family: "Roboto", sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -70,28 +71,48 @@ a {
 .align-baseline {
   align-items: baseline;
 }
+.align-top {
+  align-items: flex-start;
+}
 .justify-start {
   justify-content: start;
 }
-.movie {
+.home .movie {
   width: 185px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border-radius: 6px;
 }
-.movie .thumbnail {
+.home .movie .thumbnail {
   overflow: hidden;
 }
-.movie:hover img{
+.home .movie:hover img{
   transform: scale(1.2);
   transition: 450ms;
 }
-.movie img {
+.home .movie img {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
-.description {
+.home .description {
   padding: 20px;
 }
 h1 {
   margin: 20px 0;
+}
+.movie-detail-page .container {
+  width: 1315px;
+  margin: 0 auto;
+}
+.movie-detail-page .container > .d-flex {
+  gap: 20px
+}
+.movie-detail-page > h1 {
+  margin: 32px 0 64px 0;
+}
+.movie-detail-page .description .justify-start {
+  gap: 12px;
+}
+.movie-detail-page .description .movie-overview {
+  margin: 12px 0 20px 0;
+  line-height: 120%;
 }
