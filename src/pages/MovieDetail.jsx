@@ -8,12 +8,18 @@ const api_key = process.env.REACT_APP_TMDB_API_KEY;
 const MovieDetailPage = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const [cast, setCast] = useState([]);
+
 
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${api_key}&language=fr-FR`)
       .then(response => response.json())
       .then(data => {setMovieDetails(data); console.log(data)})
       .catch(error => console.error('Error fetching movie details:', error));
+    fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${api_key}&language=fr-FR`)
+      .then(response => response.json())
+      .then(data => setCast(data.cast))
+      .catch(error => console.error('Error fetching cast:', error));
   }, [id]);
 
   if (!movieDetails) {
@@ -36,6 +42,7 @@ const MovieDetailPage = () => {
               <p>| note du public : {movieDetails.vote_average}</p>
             </div>
             <p className="movie-overview">{movieDetails.overview}</p>
+            <p className="movie-casting">Liste des acteurs : {cast.map(actor => (actor.name)).join(', ')}</p>
             <div className="d-flex justify-start movie-detail">
               <p>{formattedReleaseDate}</p>
               <p>| {movieDetails.runtime} minutes</p>

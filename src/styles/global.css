@@ -116,3 +116,9 @@ h1 {
   margin: 12px 0 20px 0;
   line-height: 120%;
 }
+.movie-detail-page .description .movie-detail {
+  margin-top: 16px;
+}
+.movie-detail-page .movie-casting {
+  line-height: 120%;
+}
