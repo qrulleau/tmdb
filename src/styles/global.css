@@ -122,3 +122,39 @@ h1 {
 .movie-detail-page .movie-casting {
   line-height: 120%;
 }
+.notification {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  position: fixed;
+  top: 10%;
+  right: 15%;
+}
+
+.notification.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.notification.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.notification.warning {
+  background-color: #ff9800;
+  color: white;
+}
+
+.fade-out {
+  animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

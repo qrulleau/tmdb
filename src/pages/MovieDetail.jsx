@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Notification from "../components/Notification";
 import { format} from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Link } from "react-router-dom";
@@ -11,7 +12,7 @@ const MovieDetailPage = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [cast, setCast] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
-
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${api_key}&language=fr-FR`)
@@ -46,11 +47,25 @@ const MovieDetailPage = () => {
   
     fetch(`https://api.themoviedb.org/3/movie/${id}/rating`, options)
       .then(response => {
+        if (response.ok) {
+          setNotification({ message: "Notation bien envoyée", type: "success" });
+          setTimeout(() => {
+            setNotification(null);
+          }, 3000);
+        } else {
+          setNotification({ message: "Un problème est survenu", type: "error" });
+          setTimeout(() => {
+            setNotification(null); 
+          }, 3000);
+        }
         console.log('Response status:', response.status);
         return response.json();
       })
       .then(data => console.log('Rating sent to API:', data))
-      .catch(error => console.error('Error sending rating to API:', error));
+      .catch(error => {
+        setNotification({ message: "Un problème est survenu", type: "error" });
+        console.error('Error sending rating to API:', error);
+      });
   };
 
   const imageUrl = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`;
@@ -87,6 +102,7 @@ const MovieDetailPage = () => {
                 ))}
               </select>
             </div>
+            {notification && <Notification message={notification.message} type={notification.type} className={notification ? 'fade-out' : ''} />}
           </div>
       </div>
       </div>
