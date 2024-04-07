@@ -51,7 +51,7 @@ function Home() {
     <div className="App">
       <div className="home">
         <h1 className="text-center">Listes des films populaires</h1>
-        <div className="d-flex">
+        <div className="filter d-flex justify-center">
         <SearchBar onSearch={handleSearch} />
         <select onChange={handleGenreChange} value={selectedGenre}>
           <option value="" default>Categorie de film</option>

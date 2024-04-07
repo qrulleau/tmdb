@@ -13,7 +13,7 @@ const Movie = ({ title, posterPath, movieId }) => {
                     />
                 ) : null}
             </div>
-        <div className="description">
+        <div className="description d-flex justify-center align-center">
             <h2>{title}</h2>
         </div>
         </div>

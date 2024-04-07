@@ -71,11 +71,17 @@ a {
 .align-baseline {
   align-items: baseline;
 }
+.align-center {
+  align-items: center;
+}
 .align-top {
   align-items: flex-start;
 }
 .justify-start {
   justify-content: start;
+}
+.justify-center {
+  justify-content: center;
 }
 .home .movie {
   width: 185px;
@@ -94,8 +100,12 @@ a {
   border-top-right-radius: 6px;
 }
 .home .description {
+  height: 100px;
+}
+.home .description h2 {
   padding: 20px;
 }
+
 h1 {
   margin: 20px 0;
 }
@@ -139,6 +149,13 @@ h1 {
 .notification.error {
   background-color: #f44336;
   color: white;
+}
+.filter {
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.filter input {
+  width: 220px;
 }
 
 .notification.warning {
