@@ -18,77 +18,98 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
   font-family: "Roboto", sans-serif;
 }
+
 ol, ul {
 	list-style: none;
 }
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 * {
   box-sizing: border-box;
 }
+
 a {
   text-decoration: none;
   color: inherit;
 }
+
 .d-flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .flex-wrap {
   flex-wrap: wrap;
 }
+
 .text-center {
   text-align: center;
 }
+
 .movie-container {
   gap: 20px;
 }
+
 .align-baseline {
   align-items: baseline;
 }
+
 .align-center {
   align-items: center;
 }
+
 .align-top {
   align-items: flex-start;
 }
+
 .justify-start {
   justify-content: start;
 }
+
 .justify-center {
   justify-content: center;
 }
+
 .home .movie {
   width: 185px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   border-radius: 6px;
 }
+
 .home .movie .thumbnail {
   overflow: hidden;
 }
+
 .home .movie:hover img{
   transform: scale(1.2);
   transition: 450ms;
 }
+
 .home .movie img {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -103,29 +124,47 @@ a {
 h1 {
   margin: 20px 0;
 }
+
 .movie-detail-page .container {
   width: 1315px;
   margin: 0 auto;
 }
+
 .movie-detail-page .container > .d-flex {
   gap: 20px
 }
+
 .movie-detail-page > h1 {
-  margin: 32px 0 64px 0;
+  margin: 0 0 64px 0;
+  font-size: 20px;
+  font-weight: 600;
 }
+
 .movie-detail-page .description .justify-start {
   gap: 12px;
 }
+
 .movie-detail-page .description .movie-overview {
   margin: 12px 0 20px 0;
   line-height: 120%;
 }
+
+.movie-detail-page .title-rating {
+  margin-top: 16px;
+}
+
 .movie-detail-page .description .movie-detail {
   margin-top: 16px;
 }
+
 .movie-detail-page .movie-casting {
   line-height: 120%;
 }
+
+.movie-detail textarea {
+  width: 100%;
+}
+
 .notification {
   padding: 10px;
   margin-bottom: 10px;
@@ -144,10 +183,12 @@ h1 {
   background-color: #f44336;
   color: white;
 }
+
 .filter {
   gap: 20px;
   margin-bottom: 32px;
 }
+
 .filter input {
   width: 220px;
 }
@@ -169,10 +210,22 @@ h1 {
     opacity: 0;
   }
 }
+
 .btn-back {
   margin: 20px 0 0 24px;
 }
+
 .btn-back a{
   padding: 8px 12px;
   border: 1px solid black;
+}
+
+.btn-back a:hover {
+  color: white;
+  background-color: black;
+  transition: 350ms;
+}
+
+.favorite {
+  fill: gold;
 }
