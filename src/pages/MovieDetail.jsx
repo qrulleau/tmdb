@@ -9,6 +9,49 @@ const api_key = process.env.REACT_APP_TMDB_API_KEY;
 const api_key_read = process.env.REACT_APP_TMDB_API_KEY_READ;
 const account_id = process.env.REACT_APP_TMDB_ACCOUNT_ID;
 
+const getFavoriteMovie = (movieId, setIsFavorite) => {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${api_key_read}`
+    }
+  };
+
+  fetch(`https://api.themoviedb.org/3/account/${account_id}/favorite/movies?language=fr-FR&page=1`, options)
+    .then(response => response.json())
+    .then(data => {
+      const favoriteMovies = data.results;
+      const isFavorite = favoriteMovies.some(movie => movie.id === movieId);
+      if (isFavorite) {
+        setIsFavorite(isFavorite);
+      }
+    })
+    .catch(error => console.error('Error fetching favorited movies:', error));
+}
+
+const getRankingMovie = (movieId, setSelectedRating) => {
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${api_key_read}`
+    }
+  };
+
+  fetch(`https://api.themoviedb.org/3/account/${account_id}/rated/movies?language=fr-FR&page=1`, options)
+    .then(response => response.json())
+    .then(data => {
+      const ratedMovies = data.results;
+      const isRated = ratedMovies.some(movie => movie.id === movieId);
+      if (isRated) {
+        const ratedMovie = ratedMovies.find(movie => movie.id === movieId);
+        setSelectedRating(ratedMovie.rating);
+      }
+    })
+    .catch(error => console.error('Error fetching rated movies:', error));
+};
+
 const MovieDetailPage = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
@@ -20,7 +63,11 @@ const MovieDetailPage = () => {
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${api_key}&language=fr-FR`)
       .then(response => response.json())
-      .then(data => setMovieDetails(data))
+      .then(data => {
+        setMovieDetails(data);
+        getRankingMovie(data.id, setSelectedRating);
+        getFavoriteMovie(data.id, setIsFavorite);
+      })
       .catch(error => console.error('Error fetching movie details:', error));
     fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${api_key}&language=fr-FR`)
       .then(response => response.json())

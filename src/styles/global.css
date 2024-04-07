@@ -161,8 +161,20 @@ h1 {
   line-height: 120%;
 }
 
-.movie-detail textarea {
+.movie-detail-page textarea {
   width: 100%;
+}
+
+.movie-detail-page .personal-commentary {
+  margin-top: 12px;
+}
+
+.movie-detail-page .personal-rating {
+  margin-top: 40px;
+}
+
+.movie-detail-page .personal-commentary p{
+  margin-bottom: 8px;
 }
 
 .notification {
