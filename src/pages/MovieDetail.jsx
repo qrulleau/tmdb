@@ -73,7 +73,9 @@ const MovieDetailPage = () => {
 
   return (
     <div className="movie-detail-page">
+      <div className="d-flex btn-back">
       <Link to={"/"}>retour</Link>
+      </div>
       <h1 className="text-center">Detail du film : {movieDetails.title}</h1>
       <div className="container">
         <div className="d-flex align-top">
@@ -92,7 +94,7 @@ const MovieDetailPage = () => {
               <p>|</p>
               <p>{movieDetails.genres.map(genre => genre.name).join(', ')}</p>
             </div>
-            <div className="personal-opinion d-flex">
+            <div className="personal-rating d-flex">
               <p>Attribuez lui une note si vous l'avez vu</p>
               <select name="rating" id="rating" value={selectedRating} onChange={handleRatingChange}>
                 {[...Array(20).keys()].map((value) => (
@@ -101,6 +103,10 @@ const MovieDetailPage = () => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="personal-commentary">
+            <p>Donnez votre avis</p>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
             </div>
             {notification && <Notification message={notification.message} type={notification.type} className={notification ? 'fade-out' : ''} />}
           </div>

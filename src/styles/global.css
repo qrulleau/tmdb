@@ -169,3 +169,10 @@ h1 {
     opacity: 0;
   }
 }
+.btn-back {
+  margin: 20px 0 0 24px;
+}
+.btn-back a{
+  padding: 8px 12px;
+  border: 1px solid black;
+}
