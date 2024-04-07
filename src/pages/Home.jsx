@@ -37,7 +37,7 @@ function Home() {
 
   const getMovieByGenre = (genreName) => {
     console.log(genreName);
-    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&with_genres=${genreName}`)
+    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&with_genres=${genreName}&language=fr-FR`)
     .then((response) => response.json())
     .then((data) => setMovies(data.results))
     .catch((error) => console.error("Error fetching data:", error));
