@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Notification from "../components/Notification";
+import { ReactComponent as StarIcon } from '../assets/star.svg';
 import { format} from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Link } from "react-router-dom";
 const api_key = process.env.REACT_APP_TMDB_API_KEY;
 const api_key_read = process.env.REACT_APP_TMDB_API_KEY_READ;
+const account_id = process.env.REACT_APP_TMDB_ACCOUNT_ID;
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -13,6 +15,7 @@ const MovieDetailPage = () => {
   const [cast, setCast] = useState([]);
   const [selectedRating, setSelectedRating] = useState('');
   const [notification, setNotification] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${api_key}&language=fr-FR`)
@@ -50,13 +53,12 @@ const MovieDetailPage = () => {
         if (response.ok) {
           setNotification({ message: "Notation bien envoyée", type: "success" });
           setTimeout(() => {
-            setNotification(null);
+            setNotification(null)
           }, 3000);
         } else {
           setNotification({ message: "Un problème est survenu", type: "error" });
           setTimeout(() => {
-            setNotification(null); 
-          }, 3000);
+            setNotification(null)}, 3000);
         }
         console.log('Response status:', response.status);
         return response.json();
@@ -65,6 +67,45 @@ const MovieDetailPage = () => {
       .catch(error => {
         setNotification({ message: "Un problème est survenu", type: "error" });
         console.error('Error sending rating to API:', error);
+      });
+  };
+
+  const addFavoriteToAPI = () => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${api_key_read}`,
+      },
+      body: JSON.stringify({
+        media_type: 'movie',
+        media_id: id,
+        favorite: !isFavorite
+      }),
+    };
+  
+    return fetch(`https://api.themoviedb.org/3/account/${account_id}/favorite`, options)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Un problème est survenu');
+        }
+        return response.json();
+      });
+  };
+
+  const toggleFavorite = () => {
+    if (!isFavorite) {
+      setNotification({ message: "Film ajouté aux favoris", type: "success" });
+      setTimeout(() => {setNotification(null)}, 3000);
+    }else {
+      setNotification({ message: "Film retiré des favoris", type: "success" });
+      setTimeout(() => {setNotification(null)},3000);
+    }
+    setIsFavorite(!isFavorite);
+    addFavoriteToAPI()
+      .catch(error => {
+        setNotification({ message: "Un problème est survenu", type: "error" });
+        console.error('Error adding favorite:', error);
       });
   };
 
@@ -81,6 +122,7 @@ const MovieDetailPage = () => {
         <div className="d-flex align-top">
           <img src={imageUrl} alt={movieDetails.title} />
           <div className="description">
+            <StarIcon className={isFavorite ? 'favorite' : ''} onClick={toggleFavorite} />
             <div className=" title-rating d-flex justify-start">
               <h2>{movieDetails.title}</h2>
               <p>| note du public : {movieDetails.vote_average}</p>
