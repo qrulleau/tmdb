@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import Notification from "../components/Notification";
-import { ReactComponent as StarIcon } from '../assets/star.svg';
+import { useParams, Link } from "react-router-dom";
+
 import { format} from 'date-fns';
 import { fr } from 'date-fns/locale';
-import { Link } from "react-router-dom";
+import Notification from "../components/Notification";
+import { ReactComponent as StarIcon } from '../assets/star.svg';
+
 const api_key = process.env.REACT_APP_TMDB_API_KEY;
 const api_key_read = process.env.REACT_APP_TMDB_API_KEY_READ;
 const account_id = process.env.REACT_APP_TMDB_ACCOUNT_ID;
@@ -71,7 +72,10 @@ const MovieDetailPage = () => {
       .catch(error => console.error('Error fetching movie details:', error));
     fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${api_key}&language=fr-FR`)
       .then(response => response.json())
-      .then(data => setCast(data.cast))
+      .then(data => {
+        const actors = data.cast.filter(person => person.known_for_department === "Acting" && person.popularity > 5);
+        setCast(actors);
+      })
       .catch(error => console.error('Error fetching cast:', error));
   }, [id]);
 
@@ -175,7 +179,7 @@ const MovieDetailPage = () => {
               <p>| note du public : {movieDetails.vote_average}</p>
             </div>
             <p className="movie-overview">{movieDetails.overview}</p>
-            <p className="movie-casting">Liste des acteurs : {cast.map(actor => (actor.name)).join(', ')}</p>
+            <p className="movie-casting">Acteurs principaux : {cast.map(actor => (actor.name)).join(', ')}</p>
             <div className=" movie-detail d-flex justify-start">
               <p>{formattedReleaseDate}</p>
               <p>|</p>
