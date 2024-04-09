@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+
 import Movie from "../components/Movie";
 import SearchBar from "../components/SearchBar";
+
 const api_key = process.env.REACT_APP_TMDB_API_KEY;
 
 function Home() {
@@ -10,7 +12,7 @@ function Home() {
   const [genres, setGenres] = useState([]);
 
   const handleSearch = (query) => {
-    fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${query}&language=fr-FR`)
+    fetch(`https://api.themoviedb.org/3/search/multi?api_key=${api_key}&query=${query}&include_adult=false&language=fr-FR`)
       .then((response) => response.json())
       .then((data) => setSearchResults(data.results))
       .catch((error) => console.error("Error fetching search results:", error));
@@ -19,7 +21,10 @@ function Home() {
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${api_key}&language=fr-FR`)
       .then((response) => response.json())
-      .then((data) => setMovies(data.results))
+      .then((data) => {
+        const popularMovie = data.results.map(movie => ({ ...movie, media_type: "movie" }));
+        setMovies(popularMovie);
+      })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
@@ -38,7 +43,10 @@ function Home() {
   const getMovieByGenre = (genreName) => {
     fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&with_genres=${genreName}&language=fr-FR`)
     .then((response) => response.json())
-    .then((data) => setMovies(data.results))
+    .then((data) => {
+      const movie = data.results.map(movie => ({...movie, media_type: "movie" }));
+      setMovies(movie);
+    })
     .catch((error) => console.error("Error fetching data:", error));
 };
 
@@ -59,24 +67,29 @@ function Home() {
           ))}
         </select>
         </div>
-        <div className="movie-container d-flex flex-wrap align-baseline justify-start">
-          {searchResults.length > 0
-            ? searchResults.map((movie) => (
-                <Movie
-                  key={movie.id}
-                  title={movie.title}
-                  posterPath={movie.poster_path}
-                  movieId={movie.id}
-                />
-              ))
-            : movies.map((movie) => (
-                <Movie
-                  key={movie.id}
-                  title={movie.title}
-                  posterPath={movie.poster_path}
-                  movieId={movie.id}
-                />
-              ))}
+        <div className="movie-container">
+          <div className="d-flex flex-wrap align-baseline justify-start">
+            {searchResults.length > 0
+              ? searchResults.map((movie) => (
+                  <Movie
+                    key={movie.id}
+                    title={movie.title || movie.name}
+                    posterPath={movie.poster_path || movie.profile_path}
+                    movieId={movie.id}
+                    type={movie.known_for_department || movie.media_type}
+                    knownFor={movie.known_for}
+                  />
+                ))
+              : movies.map((movie) => (
+                  <Movie
+                    key={movie.id}
+                    title={movie.title}
+                    posterPath={movie.poster_path}
+                    type={movie.media_type}
+                    movieId={movie.id}
+                  />
+                ))}
+          </div>
         </div>
       </div>
     </div>

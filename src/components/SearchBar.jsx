@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import {ReactComponent as SearchIcon} from '../assets/search.svg';
+
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
 
@@ -16,11 +18,13 @@ const SearchBar = ({ onSearch }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Rechercher un film par titre..."
+        placeholder="Rechercher un film ..."
         value={query}
         onChange={handleChange}
       />
-      <button type="submit">Rechercher</button>
+      <button type="submit" className="search-button">
+        <SearchIcon />
+      </button>
     </form>
   );
 };

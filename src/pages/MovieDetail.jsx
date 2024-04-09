@@ -170,7 +170,7 @@ const MovieDetailPage = () => {
       </div>
       <h1 className="text-center">Detail du film : {movieDetails.title}</h1>
       <div className="container">
-        <div className="d-flex align-top">
+        <div className="d-flex justify-center align-top">
           <img src={imageUrl} alt={movieDetails.title} />
           <div className="description">
             <StarIcon className={isFavorite ? 'favorite' : ''} onClick={toggleFavorite} />

@@ -75,8 +75,16 @@ a {
   align-items: baseline;
 }
 
+.direction-column {
+  flex-direction: column;
+}
+
 .align-center {
   align-items: center;
+}
+
+.align-start {
+  align-items: flex-start;
 }
 
 .align-top {
@@ -110,16 +118,46 @@ a {
   transition: 450ms;
 }
 
+.home .movie:hover {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  transition: 450ms;
+}
+
 .home .movie img {
   height: 258px !important;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
+  width: 100%;
 }
+
 .home .description {
   height: 100px;
-}
-.home .description h2 {
   padding: 20px;
+}
+.home .acting .description {
+  height: 200px;
+}
+
+.home .know-for-movie {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.home .know-for-movie .direction-column {
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.home .know-for-movie a:hover {
+  text-decoration: underline;
+  transition: 350ms;
+}
+
+.home .know-for-movie a:hover {
+  text-decoration: underline;
+  transition: 350ms;
+}
+.home .know-for-movie a {
+  line-height: 135%;
 }
 
 h1 {
@@ -130,9 +168,12 @@ h1 {
   margin: 0 auto;
 }
 
-.movie-detail-page .container > .d-flex,
 .home .movie-container > .d-flex {
   gap: 20px
+}
+
+.movie-detail-page .container > .d-flex {
+  gap: 60px;
 }
 
 .movie-detail-page > h1 {
@@ -164,6 +205,19 @@ h1 {
 
 .movie-detail-page textarea {
   width: 100%;
+}
+
+.movie-detail-page .description svg:hover {
+  fill: gold;
+  transition: 450ms;
+}
+.movie-detail-page .description svg {
+  cursor: pointer;
+}
+
+.movie-detail-page .description svg.favorite:hover {
+  fill: black;
+  transition: 450ms;
 }
 
 .movie-detail-page .personal-commentary {
@@ -204,6 +258,10 @@ h1 {
 
 .filter input {
   width: 220px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border: 1px solid black;
+  border-right: 0px;
 }
 
 .filter input, .filter button, .filter select {
@@ -211,7 +269,11 @@ h1 {
 }
 .filter button {
   border: 1px solid black;
-  margin-left: 12px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.filter button:hover svg {
+  fill: white;
 }
 .filter button, .filter select {
   cursor: pointer;
