@@ -205,6 +205,7 @@ h1 {
 
 .movie-detail-page textarea {
   width: 100%;
+  border-radius: 6px;
 }
 
 .movie-detail-page .description svg:hover {
@@ -309,6 +310,7 @@ h1 {
 .btn-back a{
   padding: 8px 12px;
   border: 1px solid black;
+  border-radius: 4px;
 }
 
 .btn-back a:hover {

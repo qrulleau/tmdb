@@ -5,6 +5,7 @@ import { format} from 'date-fns';
 import { fr } from 'date-fns/locale';
 import Notification from "../components/Notification";
 import { ReactComponent as StarIcon } from '../assets/star.svg';
+import { initDB, addComment, getCommentFromIndexedDB } from '../utils/IndexDB'
 
 const api_key = process.env.REACT_APP_TMDB_API_KEY;
 const api_key_read = process.env.REACT_APP_TMDB_API_KEY_READ;
@@ -60,6 +61,51 @@ const MovieDetailPage = () => {
   const [selectedRating, setSelectedRating] = useState('');
   const [notification, setNotification] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [comment, setComment] = useState('');
+
+  useEffect(() => {
+    initDB();
+
+    const fetchCommentFromIndexedDB = async () => {
+      try {
+        if (typeof db !== 'undefined') {
+          const commentFromDB = await getCommentFromIndexedDB(id);
+          if (commentFromDB) {
+            setComment(commentFromDB);
+          }
+        } else {
+          setTimeout(fetchCommentFromIndexedDB, 1000);
+        }
+      } catch (error) {
+        console.error('Error fetching comment from IndexedDB:', error);
+      }
+    };
+
+    fetchCommentFromIndexedDB();
+  }, [id]);
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const handleCommentSubmit = () => {
+    if (comment.trim() !== '') {
+      addComment(id, comment)
+        .then(() => {
+          setComment('');
+          setNotification({ message: "Commentaire envoyé avec succès", type: "success" });
+          setTimeout(() => {
+            setNotification(null)
+          }, 3000);
+        })
+        .catch(error => {
+          setNotification({ message: "Erreur lors de l'envoi du commentaire", type: "error" });
+          console.error('Error adding comment:', error);
+        });
+    } else {
+      setNotification({ message: "Le commentaire ne peut pas être vide", type: "error" });
+    }
+  };
 
   useEffect(() => {
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${api_key}&language=fr-FR`)
@@ -199,7 +245,8 @@ const MovieDetailPage = () => {
             </div>
             <div className="personal-commentary">
             <p>Donnez votre avis</p>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="comment" id="comment" cols="30" rows="10" onChange={handleCommentChange}>{comment}</textarea>
+            <button type="submit" onClick={handleCommentSubmit}>Envoyer</button>
             </div>
             {notification && <Notification message={notification.message} type={notification.type} className={notification ? 'fade-out' : ''} />}
           </div>
