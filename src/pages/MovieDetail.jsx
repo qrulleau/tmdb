@@ -64,20 +64,14 @@ const MovieDetailPage = () => {
   const [comment, setComment] = useState('');
 
   useEffect(() => {
-    initDB((error, db) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      getCommentFromIndexedDB(id, (commentError, comment) => {
-        if (commentError) {
-          console.error(commentError);
-          return;
-        }
-
+    initDB().then(() => {
+      getCommentFromIndexedDB(id).then((comment) => {
         setComment(comment);
+      }).catch((error) => {
+        console.error(error);
       });
+    }).catch((error) => {
+      console.error(error);
     });
   }, [id]);
 
@@ -86,18 +80,16 @@ const MovieDetailPage = () => {
   };
 
   const handleCommentSubmit = () => {
-    if (comment !== null && comment.trim() !== '') {
-      addComment(id, comment, (error) => {
-        if (error) {
-          setNotification({ message: "Erreur lors de l'envoi du commentaire", type: "error" });
-          console.error('Error adding comment:', error);
-        } else {
-          setComment('');
-          setNotification({ message: "Commentaire envoyé avec succès", type: "success" });
-          setTimeout(() => {
-            setNotification(null)
-          }, 3000);
-        }
+    if (comment.trim() !== '') {
+      addComment(id, comment).then(() => {
+        setComment('');
+        setNotification({ message: "Commentaire envoyé avec succès", type: "success" });
+        setTimeout(() => {
+          setNotification(null)
+        }, 3000);
+      }).catch((error) => {
+        setNotification({ message: "Erreur lors de l'envoi du commentaire", type: "error" });
+        console.error('Error adding comment:', error);
       });
     } else {
       setNotification({ message: "Le commentaire ne peut pas être vide", type: "error" });
