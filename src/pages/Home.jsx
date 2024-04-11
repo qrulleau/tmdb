@@ -10,11 +10,15 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
   const [genres, setGenres] = useState([]);
+  const [title, setTitle] = useState('')
 
   const handleSearch = (query) => {
     fetch(`https://api.themoviedb.org/3/search/multi?api_key=${api_key}&query=${query}&include_adult=false&language=fr-FR`)
       .then((response) => response.json())
-      .then((data) => setSearchResults(data.results))
+      .then((data) => {
+        setSearchResults(data.results);
+        setTitle(`des résultats associés à : ${query}`);
+      })
       .catch((error) => console.error("Error fetching search results:", error));
   };
 
@@ -24,13 +28,15 @@ function Home() {
       .then((data) => {
         const popularMovie = data.results.map(movie => ({ ...movie, media_type: "movie" }));
         setMovies(popularMovie);
+        setTitle("des films populaires");
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const handleGenreChange = (event) => {
+    const selectedGenreName = event.target.options[event.target.selectedIndex].text;
     setSelectedGenre(event.target.value);
-    getMovieByGenre(event.target.value);
+    getMovieByGenre(event.target.value, selectedGenreName);
   }
 
   const getAllGenre = () => {
@@ -40,12 +46,13 @@ function Home() {
       .catch((error) => console.error("Error fetching data:", error));
   };
 
-  const getMovieByGenre = (genreName) => {
-    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&with_genres=${genreName}&language=fr-FR`)
+  const getMovieByGenre = (genreId, genreName) => {
+    fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${api_key}&with_genres=${genreId}&language=fr-FR`)
     .then((response) => response.json())
     .then((data) => {
       const movie = data.results.map(movie => ({...movie, media_type: "movie" }));
       setMovies(movie);
+      setTitle(`des films de la categorie: ${genreName}`);
     })
     .catch((error) => console.error("Error fetching data:", error));
 };
@@ -57,7 +64,7 @@ function Home() {
   return (
     <div className="App">
       <div className="home">
-        <h1 className="text-center">Listes des films populaires</h1>
+        <h1 className="text-center">Liste {title}</h1>
         <div className="filter d-flex justify-center">
         <SearchBar onSearch={handleSearch} />
         <select onChange={handleGenreChange} value={selectedGenre}>

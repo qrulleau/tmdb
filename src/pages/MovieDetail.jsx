@@ -183,7 +183,7 @@ const MovieDetailPage = () => {
     if (!isFavorite) {
       setNotification({ message: "Film ajouté aux favoris", type: "success" });
       setTimeout(() => {setNotification(null)}, 3000);
-    }else {
+    } else {
       setNotification({ message: "Film retiré des favoris", type: "success" });
       setTimeout(() => {setNotification(null)},3000);
     }
