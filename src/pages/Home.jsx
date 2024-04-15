@@ -51,6 +51,7 @@ function Home() {
     .then((response) => response.json())
     .then((data) => {
       const movie = data.results.map(movie => ({...movie, media_type: "movie" }));
+      setSearchResults([]);
       setMovies(movie);
       setTitle(`des films de la categorie: ${genreName}`);
     })
